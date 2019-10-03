@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: eureka-client-one
+server:
+  port: 9091
+
+eureka:
+  client:
+    # 调用方 通过这个 url 注册服务和查询服务
+    service-url:
+      defaultZone: http://localhost:8081/eureka/
