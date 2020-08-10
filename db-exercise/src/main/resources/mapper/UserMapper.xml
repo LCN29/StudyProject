@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.can.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.can.dao.UserDao">
+        <id column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_age" property="userAge"/>
+        <result column="birthday" property="birthday"/>
+    </resultMap>
+
+    <select id="getUserByUserId" resultMap="BaseResultMap">
+        SELECT * FROM t_user_info where user_id = #{userId}
+    </select>
+
+</mapper>
