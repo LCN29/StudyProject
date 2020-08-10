@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.Objects;
 
 /**
  * <pre>
@@ -27,15 +29,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDao> implements
     private UserMapper userMapper;
 
     @Override
-    public String getString() {
-        return "0k";
+    public UserDao getUserById(Integer userId) {
+
+        UserDao result = super.getOne(new QueryWrapper<UserDao>().lambda().eq(UserDao::getUserName, "测试"));
+
+        if (Objects.isNull(result)) {
+            result = userMapper.getUserByUserId(userId);
+        }
+        return result;
     }
 
     @Override
-    public UserDao getUserById(Integer userId) {
-        log.info("id---->{}", userId);
-        UserDao userByUserId = userMapper.getUserByUserId(userId);
-        UserDao result = super.getOne(new QueryWrapper<UserDao>().lambda().eq(UserDao::getUserName, "测试"));
-        return result;
+    public int insertUser() {
+        UserDao userDao = new UserDao();
+        userDao.setBirthday(new Date());
+        userDao.setUserName("ooo");
+        userDao.setUserAge(123);
+        int insert = userMapper.insert(userDao);
+        return insert;
     }
 }

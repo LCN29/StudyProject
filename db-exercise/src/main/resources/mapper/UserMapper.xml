@@ -10,6 +10,7 @@
         <result column="birthday" property="birthday"/>
     </resultMap>
 
+
     <select id="getUserByUserId" resultMap="BaseResultMap">
         SELECT * FROM t_user_info where user_id = #{userId}
     </select>

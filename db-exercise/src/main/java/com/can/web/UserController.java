@@ -24,13 +24,13 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @GetMapping("/test")
-    public String test() {
-        return userService.getString();
-    }
-
     @GetMapping("/user/{userId}")
     public UserDao getUser(@PathVariable(name = "userId") Integer userId) {
         return userService.getUserById(userId);
+    }
+
+    @GetMapping("/add")
+    public int insert() {
+        return userService.insertUser();
     }
 }

@@ -13,15 +13,12 @@ import com.can.dao.UserDao;
 public interface UserService {
 
     /**
-     * 获取字符串
-     * @return
-     */
-    String getString();
-
-    /**
      * 通过 id 查询客户信息
+     *
      * @param userId
      * @return
      */
     UserDao getUserById(Integer userId);
+
+    int insertUser();
 }
