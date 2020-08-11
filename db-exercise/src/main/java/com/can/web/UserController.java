@@ -33,4 +33,12 @@ public class UserController {
     public int insert() {
         return userService.insertUser();
     }
+
+    @GetMapping("/update/{id}")
+    public Boolean update(@PathVariable(name = "id")Integer id) {
+
+        boolean result = userService.updateData(id);
+        log.info("结果---->{}", result);
+        return result;
+    }
 }

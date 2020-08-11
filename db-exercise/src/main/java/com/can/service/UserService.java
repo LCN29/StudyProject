@@ -21,4 +21,6 @@ public interface UserService {
     UserDao getUserById(Integer userId);
 
     int insertUser();
+
+    Boolean updateData(Integer id);
 }
