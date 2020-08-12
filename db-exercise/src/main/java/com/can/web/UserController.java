@@ -1,6 +1,6 @@
 package com.can.web;
 
-import com.can.dao.UserDao;
+import com.can.dao.UserInfoDao;
 import com.can.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,20 +25,12 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/user/{userId}")
-    public UserDao getUser(@PathVariable(name = "userId") Integer userId) {
+    public UserInfoDao getUser(@PathVariable(name = "userId") Integer userId) {
         return userService.getUserById(userId);
     }
 
     @GetMapping("/add")
     public int insert() {
         return userService.insertUser();
-    }
-
-    @GetMapping("/update/{id}")
-    public Boolean update(@PathVariable(name = "id")Integer id) {
-
-        boolean result = userService.updateData(id);
-        log.info("结果---->{}", result);
-        return result;
     }
 }

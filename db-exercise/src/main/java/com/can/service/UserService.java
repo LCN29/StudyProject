@@ -1,6 +1,6 @@
 package com.can.service;
 
-import com.can.dao.UserDao;
+import com.can.dao.UserInfoDao;
 
 /**
  * <pre>
@@ -18,9 +18,7 @@ public interface UserService {
      * @param userId
      * @return
      */
-    UserDao getUserById(Integer userId);
+    UserInfoDao getUserById(Integer userId);
 
     int insertUser();
-
-    Boolean updateData(Integer id);
 }

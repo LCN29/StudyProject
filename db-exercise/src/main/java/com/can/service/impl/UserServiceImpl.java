@@ -2,18 +2,17 @@ package com.can.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.can.dao.CustomerQuoteGroupRelationDao;
-import com.can.dao.UserDao;
-import com.can.mapper.CustomerQuoteGroupRelationMapper;
-import com.can.mapper.UserMapper;
+import com.can.dao.UserExtendDao;
+import com.can.dao.UserInfoDao;
+import com.can.mapper.UserExtendMapper;
+import com.can.mapper.UserInfoMapper;
+import com.can.service.UserExtendService;
 import com.can.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.Objects;
+import java.time.LocalDate;
 
 /**
  * <pre>
@@ -26,50 +25,59 @@ import java.util.Objects;
 
 @Slf4j
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, UserDao> implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserInfoMapper, UserInfoDao> implements UserService {
 
     @Resource
-    private UserMapper userMapper;
+    private UserInfoMapper userMapper;
 
     @Resource
-    private CustomerQuoteGroupRelationMapper customerQuoteGroupRelationMapper;
+    private UserExtendMapper userExtendMapper;
+
+    @Resource
+    private UserExtendService userExtendService;
 
     @Override
-    public UserDao getUserById(Integer userId) {
+    public UserInfoDao getUserById(Integer userId) {
 
-        log.info("请求参数----------->{}", userId);
-
-        UserDao result = super.getOne(new QueryWrapper<UserDao>().lambda().eq(UserDao::getUserName, "测试"));
-
-        if (Objects.isNull(result)) {
-            result = userMapper.getUserByUserId(userId);
-        }
+        UserInfoDao result = super.getOne(new QueryWrapper<UserInfoDao>().lambda().eq(UserInfoDao::getUserName, "测试"));
         return result;
     }
 
     @Override
     public int insertUser() {
-        UserDao userDao = new UserDao();
-        userDao.setBirthday(new Date());
-        userDao.setUserName("ooo");
-        userDao.setUserAge(123);
-        int insert = userMapper.insert(userDao);
-        return insert;
+
+        insertUserInfo();
+        return 1;
     }
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Boolean updateData(Integer id) {
-
-        UserDao user = new UserDao();
-        user.setUserName("名字2");
-        this.userMapper.update(user, new QueryWrapper<UserDao>().lambda().eq(UserDao::getUserId, 1));
-
-        CustomerQuoteGroupRelationDao dao = new CustomerQuoteGroupRelationDao();
-        dao.setCustGroupId(12);
-        dao.setCustQuoId(12);
-
-        customerQuoteGroupRelationMapper.insert(dao);
-        return Boolean.TRUE;
+    public void insertExtend() {
+        UserExtendDao userExtendDao = new UserExtendDao();
+        userExtendDao.setName("extend");
+        int insert = userExtendMapper.insert(userExtendDao);
+        if (insert == 1) {
+            throw new RuntimeException("fail");
+        }
+        return;
     }
+
+
+    private void insertUserInfo() {
+        UserInfoDao userInfoDao = new UserInfoDao();
+        userInfoDao.setBirthday(LocalDate.now());
+        userInfoDao.setUserName("ooo");
+        userInfoDao.setUserAge(123);
+        int insert = userMapper.insert(userInfoDao);
+        if (insert != 1) {
+            throw new RuntimeException("fail");
+        }
+
+
+        UserExtendDao userExtendDao = new UserExtendDao();
+        userExtendDao.setName("extend");
+        int insert1 = userExtendService.insert(userExtendDao);
+
+        return;
+
+    }
+
 }

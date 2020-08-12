@@ -1,10 +1,11 @@
 package com.can.dao;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * <pre>
@@ -16,14 +17,14 @@ import java.util.Date;
  */
 @Data
 @TableName(value = "t_user_info")
-public class UserDao {
+public class UserInfoDao {
 
-    @TableId(value = "user_id")
+    @TableId(value = "user_id", type= IdType.AUTO)
     private Integer userId;
 
     private String userName;
 
     private Integer userAge;
 
-    private Date birthday;
+    private LocalDate birthday;
 }
